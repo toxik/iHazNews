@@ -1,0 +1,175 @@
+<div>
+
+	<h1>Statistici</h1>
+	<h2>Statistici pentru website-urile adaugate</h2>
+	
+	<div class="leftSide" style="width:70%; position:relative; float:left">
+		<!-- <img src="/images/statistics.png" style="padding:5px ;width:600px; height:300px;" /> -->
+		
+		
+		<?php if($page['ok']): ?>
+		<style>
+			stat1, stat2 { width: 100%!important; height: 300px; display:block }
+			
+		</style>
+		<!--<div id="tabs">-->
+			
+			<ul class="tabs">
+				<li><a href="#tab1">Vizitatori Unici</a></li>
+				<li><a href="#tab2">Accesari Totale</a></li>
+				<li><a href="#tab3">Rating</a></li>
+				<li><a href="#tab4">Subscribers</a></li>
+			</ul>
+		<div class="tab_container">	
+			<!--<h3><a href="#">Vizitatori unici</a></h3>-->
+			<div id="tab1" class="tab_content">
+				<div id="stat1" style="width:576px; height:300px"></div>
+			</div>
+			<!--<h3><a href="#">Vizitatori totali</a></h3>-->
+			<div id="tab2" class="tab_content">
+			   <div id="stat2" style="width:576px; height:300px"></div>
+			</div>
+			<div id="tab3" class="tab_content">
+			   <div id="stat3" style="width:576px; height:300px"></div>
+			</div>
+			<div id="tab4" class="tab_content">
+			   <div id="stat4" style="width:576px; height:300px"></div>
+			</div>
+		</div>
+		
+		
+		
+		<?php endif; ?>
+	</div>
+</div>
+<div id="home-sidebar"> 
+		<div class="home-sidebar-section"> 
+			<h2>Selectare website</h2> 
+			<form action="/furnizor/statistics">
+				<fieldset>
+					<label>Nume site</label>
+					
+					<select name="name" value="<?php if(isset($_GET['name'])) echo $_GET['name'];?>">
+					<?php foreach($page['websitesSelect'] as $webname) {
+						echo '<option ';
+						if($_GET['name'] == $webname['WEBSITE_ID']) 
+							echo ' selected ';
+						echo 'value="'.$webname['WEBSITE_ID'].'">'.$webname['URL'].'</option>';
+					}?>
+					</select>
+					<br />					
+			<label>Data start</label>					
+			<input type="text" class="date-mysql-day" name="date" value="<?php if(isset($_GET['date'])) echo $_GET['date']; else echo "".date('Y-m-d')."";?>"/><br/>
+			<label>Data end</label>					
+			<input type="text" class="date-mysql-day" name="dateend" value="<?php if(isset($_GET['dateend'])) echo $_GET['dateend']; else echo "".date('Y-m-d')."";?>"/>
+					<br />			
+					<input type="submit" value="Cautare" >
+				</fieldset>
+			</form>
+		</div> 
+	</div>
+
+	
+	<?php if(isset($page['dateRanges'])):?>
+	<script type="text/javascript">
+	$(function() {
+		var info = new Array();
+		<?php foreach($page['ratings'] as $i => $c) echo "info[ ".(1.5*($i+1))."] = '".$c['SITE_NAME']."' ;"; ?>
+		var unic = [ <?php foreach($page['val'] as $c) echo "[ ".$c['data'].", ".$c['unic']." ],"; ?>  ],
+		p1	= $.plot( $('#stat1'), [{ label: "Vizite unice",  data: unic, points: { show: false },  lines: { show: true }},], { xaxis: { mode: "time"}, yaxis: { mintickSize: 1}, grid: { hoverable: true, clickable: true }});
+		var total = [ <?php foreach($page['val'] as $c) echo "[ ".$c['data'].", ".$c['tota']." ],"; ?>  ],
+		p2	= $.plot( $('#stat2'), [{ label: "Vizite totale",  data: total, points: { show: false },  lines: { show: true }}], { xaxis: { mode: "time"}, yaxis: { mintickSize: 1}, grid: { hoverable: true, clickable: true }});
+		var rat =  [ <?php foreach($page['ratings'] as $i => $c) echo "[ ".(1.5*($i+1)).", ".$c['RATING']." ],"; ?>  ],
+		p3	= $.plot( $('#stat3'), [{ label: "Rating",  data: rat, points: { show: false },  bars: { show: true }}], {xaxis: { show: false, min: 0, max: <?php echo (count($page['ratings'])+1)*1.5+1 ?>}, yaxis: { min: 0, max: 5}, grid: { hoverable: true, clickable: true }});
+		var subs =  [ <?php foreach($page['subs'] as $i => $c) echo "[ ".(1.5*($i+1)).", ".$c['NR']." ],"; ?>  ],
+		p3	= $.plot( $('#stat4'), [{ label: "Subscribers",  data: subs, points: { show: false },  bars: { show: true }}], {xaxis: { show: false, min: 0, max: <?php echo (count($page['ratings'])+1)*1.5+1 ?>}, grid: { hoverable: true, clickable: true }});
+		
+		
+		//$('#tabs').accordion();
+		$(".tab_content").hide(); //Hide all content
+		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		$(".tab_content:first").show(); //Show first tab content
+
+		//On Click Event
+		$("ul.tabs li").click(function() {
+
+			$("ul.tabs li").removeClass("active"); //Remove any "active" class
+			$(this).addClass("active"); //Add "active" class to selected tab
+			$(".tab_content").hide(); //Hide all tab content
+
+			var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+			$(activeTab).fadeIn(); //Fade in the active ID content
+			return false;
+		});
+		
+		//tooltips
+		var previousPoint = null, date = new Date();
+		$('#stat1, #stat2').bind('plothover', function (event, pos, item) {
+			if (item) {
+				if (previousPoint != item.dataIndex) {
+					previousPoint = item.dataIndex;
+					
+					$('#tooltip').remove();
+					var x = new Date(item.datapoint[0]).toLocaleDateString(),
+						y = item.datapoint[1];
+					//x = x.getDate() + '.' + (x.getMonth() + 1) + '.' + x.getFullYear();
+					showTooltip(item.pageX, item.pageY,
+								item.series.label + ' din ' + x + ': <b>' + parseInt(y) + '</b>');
+				}
+			} else {
+				$('#tooltip').remove();
+				previousPoint = null;            
+			}
+		});
+		
+		$('#stat3').bind('plothover', function (event, pos, item) {
+			if (item) {
+				if (previousPoint != item.dataIndex) {
+					previousPoint = item.dataIndex;
+					
+					$('#tooltip').remove();
+					var x = item.datapoint[0],
+						y = item.datapoint[1];
+					showTooltip(item.pageX, item.pageY,
+								 item.series.label + ' pentru <b>' + info[x] + '</b> ' + ': ' + y );
+				}
+			} else {
+				$('#tooltip').remove();
+				previousPoint = null;            
+			}
+		});
+		
+		$('#stat4').bind('plothover', function (event, pos, item) {
+			if (item) {
+				if (previousPoint != item.dataIndex) {
+					previousPoint = item.dataIndex;
+					
+					$('#tooltip').remove();
+					var x = item.datapoint[0],
+						y = item.datapoint[1];
+					showTooltip(item.pageX, item.pageY,
+								 item.series.label + ' pentru <b>' + info[x] + '</b> ' + ': ' + y );
+				}
+			} else {
+				$('#tooltip').remove();
+				previousPoint = null;            
+			}
+		});
+		
+		
+		function showTooltip(x, y, contents) {
+			$('<div id="tooltip">' + contents + '</div>').css( {
+				position: 'absolute',
+				display: 'none',
+				top: y + 5,
+				left: x + 5,
+				border: '1px solid #fdd',
+				padding: '2px',
+				'background-color': '#fee',
+				opacity: 0.90
+			}).appendTo('body').fadeIn(200);
+		}
+	});
+	</script>
+
+	<?php endif; ?>

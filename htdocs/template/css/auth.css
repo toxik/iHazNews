@@ -1,0 +1,7 @@
+#tosbox{
+	border:1px solid #ccc;
+	border-right: none;
+	height: 100px;
+	width: 600px;
+	overflow-y: auto
+}

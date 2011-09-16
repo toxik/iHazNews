@@ -1,0 +1,32 @@
+<h1><?php echo $page['name']; ?></h1>
+<h2>Website-uri asociate</h2>
+<?php if($page['subscribed']): ?>
+	Dezabonare de la newsgroup: <button class="confirm" onClick="confirmation_ngr('<?php echo $page['name']; ?>',<?php echo $_GET['newsgroup_id']; ?>)">Dezabonare</button>
+<?php else: ?>
+	Abonare la newsgroup: <button class="confirm" onClick="confirmation_add_ngr('<?php echo $page['name']; ?>',<?php echo $_GET['newsgroup_id']; ?>)">Abonare</button>
+<?php endif; ?>
+<br/><br/>
+<table class="zebra" style="width:500px">
+	<thead>
+		<tr>			
+			<th style="text-align:left">Website</th>
+			<th style="text-align:left">URL</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php if(count($page['websites']) > 0): ?>
+		<?php $i = 0; foreach($page['websites'] as $s): ?>
+			<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+				<td style="text-align:left"><?php echo $s['SITE_NAME']?></td>	
+				<td><?php echo $s['URL']?></td>
+			</tr>			
+		<?php endforeach; ?>
+	<?php else: ?>
+		<tr>	
+			<td colspan="2">
+				Newsgroup-ul nu contine inca website-uri.
+			</td>
+		</tr>
+	<?php endif; ?>
+	</tbody>		
+</table>

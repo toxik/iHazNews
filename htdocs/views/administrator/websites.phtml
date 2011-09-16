@@ -1,0 +1,46 @@
+<div class="leftSide">
+	<h1>Admin Websites</h1>
+	<h2>Lista tuturor website-urilor</h2>
+	
+	<table class="zebra" id="filtrabil">
+		<thead>
+			<tr>
+				<th style="text-align:left">Nume website</th>
+				<th style="text-align:left">Nume utilizator</th>
+				<th colspan="2">Actiuni</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($page['websites'] as $i => $e): ?>
+			<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+				<td><?php echo $e['URL']; ?></td>
+				<td><?php echo $e['ADDED_BY']; ?></td>
+				<td style="width:80px">
+				<?php if ($e['F_ACTIVE'] == 'Y'): ?>
+					<button class="link reset" href="/administrator/websites/pageNo/<?php echo $page['pageNo']; ?>/websiteid/<?php echo $e['WEBSITE_ID']; ?>/activated/false">Dezactivare</button>
+					<?php else: ?>
+					<button class="link confirm" href="/administrator/websites/pageNo/<?php echo $page['pageNo']; ?>/websiteid/<?php echo $e['WEBSITE_ID']; ?>/activated/true">&nbsp;&nbsp;&nbsp;Activare&nbsp;&nbsp;</button>
+					<?php endif; ?>					
+				</td>
+				<td style="width:80px">
+					<button class="link edit" href="/furnizor/modificare/pageNo/1/userid/<?php echo $page['USER_ID']; ?>/wid/<?php echo $e['WEBSITE_ID']; ?>">Modificare</button>
+					
+				</td>
+				
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
+
+<div id="home-sidebar"> 
+		<div class="home-sidebar-section"> 
+			<h2>Filtrare websites</h2> 
+			<form >
+				<fieldset>
+					<form id="filter-form"><label for="filter">Website / Utilizator</label> <br/> <input name="filter" id="filter" value="" maxlength="255" size="20" type="text"></form>
+					<br />					
+				</fieldset>
+			</form>
+		</div> 
+</div>

@@ -1,0 +1,89 @@
+<?php if($page['acc_denied']): ?>
+		Trebuie sa fii autentificat ca utilizator pentru a avea acces la aceasta pagina.<br/>
+		<a href="/auth/login">Login</a>
+<?php else: ?>
+	<div class="leftSide">
+		<h1>Newsgroups</h1>
+		<h2>Aici puteti edita grupurile</h2>
+		<div >
+			<table class="zebra">
+			<thead>
+				<tr>			
+					<th style="text-align:center">Grupurile tale</th>				
+				</tr>
+				<tr>			
+					<th style="text-align:left">Nume Grup</th>
+					<th style="width:100px">Renunta</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if(count($page['subs_ngr']) > 0): ?>
+				<?php $i = 0; foreach($page['subs_ngr'] as $s): ?>
+					<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+						<td style="text-align:left"><a href="user/newsgroup_info/newsgroup_id/<?php echo $s['ID']?>"><?php echo $s['NAME']?></a></td>			
+						<td align="right"><button class="reset" onClick="confirmation_ngr('<?php echo $s['NAME']; ?>',<?php echo $s['ID']; ?>)">Dezabonare</button></td>
+					</tr>			
+				<?php endforeach; ?>
+			<?php else: ?>
+				<tr>	
+					<td colspan="2">
+						Nu sunteti abonat la niciun newsgroup.
+					</td>
+				</tr>
+			<?php endif; ?>
+			
+			</tbody>		
+			</table>
+			<br/>
+			<table class="zebra" id="filtrabil">
+			<thead>
+				<tr>			
+					<th style="text-align:center">Grupuri existente</th>				
+				</tr>
+				<tr>			
+					<th style="text-align:left">Nume Grup</th>
+					<th style="width:100px">Inscrie</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if(count($page['ngr']) > 0): ?>
+				<?php $i = 0; foreach($page['ngr'] as $n): ?>
+					<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+						<td style="text-align:left"><a href="user/newsgroup_info/newsgroup_id/<?php echo $n['ID']?>"><?php echo $n['NAME']?></a></td>			
+						<td align="right">
+							<?php if($page['subscribed'][$n['ID']]): ?>
+							<button class="confirm" onClick="confirmation_ngr('<?php echo $n['NAME']; ?>',<?php echo $n['ID']; ?>)">Dezabonare</button>
+							<?php else: ?>
+							<button class="confirm" onClick="confirmation_add_ngr('<?php echo $n['NAME']; ?>',<?php echo $n['ID']; ?>)">Abonare</button>
+							<?php endif; ?>
+						</td>
+					</tr>			
+				<?php endforeach; ?>
+			<?php else: ?>
+				<tr>
+					<td colspan="2">
+						Momentan nu exista newsgroupuri.
+					</td>
+				</td>
+			<?php endif; ?>
+			
+			</tbody>
+			</table>
+			
+			<br>
+			
+		</div>
+		
+	</div>
+	<div id="home-sidebar"> 
+			<div class="home-sidebar-section"> 
+				<h2>Filtrare grup</h2> 
+				<form >
+					<fieldset>
+						<form id="filter-form"><label>Nume grup</label> <input name="filter" id="filter" value="" maxlength="45" size="20" type="text"></form>
+						<br />					
+					</fieldset>
+				</form>
+			</div> 
+	</div>
+<?php endif; ?>

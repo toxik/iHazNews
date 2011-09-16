@@ -1,0 +1,10 @@
+.userContent{
+padding:5px;
+border-radius:20px;
+border-style:solid;
+border-width:5px;
+border-color:#dedede;
+width:270px; 
+}
+
+label { display: block }

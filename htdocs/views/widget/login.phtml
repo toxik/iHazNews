@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<title>iHN Widget | Login</title>
+	<style>
+		* { margin: 0; padding: 0; border: none; font-size: 1em; 
+			font-family: VollkornRegular, 'Trebuchet MS', Verdana, sans-serif; }
+		h1 { font-size: 12px }
+		body { font-size:12px; padding: 5px; text-align: justify }
+		label { margin: 10px 0px; display: block; }
+		input { float: right; color: #555;
+				text-shadow: 0 1px 0 white;
+				border: 1px solid #626262;
+				background: #DDD; -moz-box-shadow: inset 2px 2px 1px #CDCDCD;
+				-webkit-box-shadow: inset 2px 2px 1px #CDCDCD; box-shadow: inset 2px 2px 1px #CDCDCD;
+				-webkit-border-radius: 0; -khtml-border-radius: 0;-moz-border-radius: 0;
+				border-radius: 0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;
+				-ms-box-sizing: border-box; box-sizing: border-box; outline: none;
+				}
+		input[type=submit] { padding: 2px 4px; float: none; /*border: 1px solid #ccc*/ }
+		input[type=submit]:hover { color: black; cursor: pointer }
+		a, a:visited, a:hover { color: #19196A; }
+		label a { line-height: 24px }
+		.error { font-weight: bold; color: red }
+	</style>
+</head>
+<body>
+	<?php if ($page['fail']): ?>
+		<span class="error">Datele sunt incorecte!</span>
+	<?php endif; ?>
+	<form method="post" action="/widget/login/site/<?php echo urlencode($_GET['site']); ?>">
+		<label>Username: <input name="user" value="<?php echo $_POST['user']; ?>"></label>
+		<label>Password: <input name="pass" type="password"></label>
+		<label>
+				
+				<a href="http://ihaznews.com/auth/register" target="_new" style="float: right">Înregistrare</a>
+				<input type="submit" value="Logare"></label>
+	</form>
+	<p><a href="http://ihaznews.com" title="providerul tau de newslettere!">iHazNews</a> este un 
+		<strong>serviciu unic</strong>, inteligent, care poate strânge <strong>site-urile tale preferate</strong>
+		şi <strong>recomanda alte articole</strong> în funcţie de cele pe care le citeşti.
+	</p>
+</body>
+</html>

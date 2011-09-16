@@ -1,0 +1,20 @@
+#hidden { display: none; }
+
+.hidden { display:none; }
+
+.modif{
+	color: #FF4C00; 
+	font-weight: bold;
+}
+
+.mod_user_stg{
+	text-align: left;
+}
+
+.mod_user_dr{
+	text-align: right;
+}
+
+.mod_fieldset{
+	width: 300px;
+}

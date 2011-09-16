@@ -1,0 +1,60 @@
+<h1>Admin User</h1>
+<h2>Modificare date utilizator</h2>
+<?php if($page['admin']): ?>
+	Pentru a modifica detaliile personale, folsiti <a href="http://ihaznews.com/user/account">Optiuni</a> .
+<?php else: ?>
+	<?php if($page['errors'] && count($page['errors'])): ?>
+		<ul class="errors">
+			<?php foreach( $page['errors'] as $e) : ?>
+			<li> <?php echo $e; ?> </li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+<form method="post">
+	<fieldset style="width: 300px;">
+		<table style="width: 250px">
+			<tbody>
+				<tr>
+					<td class="mod_user_stg">Username:</td>
+					<td style="text-align: center"><span style="font-weight: bold"><?php echo $page['username'];?></span></td>
+				</tr>
+				<tr>
+					<td class="mod_user_stg"><label for="nume">Nume: </label></td>
+					<td class="mod_user_dr"><input type="text" id="nume" name="nume" maxlength="50" value="<?php echo $page['nume']; ?>" /></td>
+				</tr>
+				<tr>
+					<td class="mod_user_stg"><label for="email">E-mail: </label></td>
+					<td class="mod_user_dr"><input type="text" id="email" name="email" maxlength="32" value="<?php echo $page['email']; ?>" /></td>
+				</tr>
+				<tr>
+					<td class="mod_user_stg"><label for="tip">Tip user: </label></td>
+					<td class="mod_user_dr">
+						<select style="width: 158px" name="tip" id="tip">
+							<option value="U" <?php if($page['utype'] == 'U'):?>selected<?php endif;?>>User</option>
+							<option value="P" <?php if($page['utype'] == 'P'):?>selected<?php endif;?>>Furnizor</option>
+							<option value="A" <?php if($page['utype'] == 'A'):?>selected<?php endif;?>>Admin</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="mod_user_stg">Reseteaza parola: </td>
+					<td style="text-align: center"><label for="reset_pass">Reset </label><input type="checkbox" id="reset_pass" name="reset_pass" value="true"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<input type="submit" name="modif" value="Modifica">
+		<br/>
+	</fieldset></br>
+	<div class="modif"><?php if($page['modif']): ?>
+		Datele s-au modificat cu succes.<br/>
+		<?php endif; ?>
+		<?php if($page['action'] == 'tokenSendingFail'): ?>
+			Exista deja un email de resetare trimis. Acesta va expira in urmatoarea jumatate de ora. Pana atunci nu puteti cere alta parola.
+		<?php endif; ?>
+		<?php if($page['action'] == 'tokenSent'): ?>
+			A fost trimisa o noua parola. 
+		<?php endif; ?>
+	</div>
+</form>
+<?php endif; ?>

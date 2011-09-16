@@ -1,0 +1,88 @@
+<div>
+	<?php if($page['acc_denied']): ?>
+		Trebuie sa fii autentificat ca utilizator pentru a avea acces la aceasta pagina.
+	<?php else: ?>
+		<h1>Newsletter</h1>
+		<h2>Aici puteti edita Newsletter-ul cat si abonamentele</h2>
+		
+		<form method="post">
+			<div style="width: 350px;">
+				<h3> Frecventa newsletterelor / saptamana</h3>
+				<div class="slider" min="1" max="7" name="fvn" val="<?php echo $page['settings']['N_PERIOD']?>"></div><br/>
+				<h3> Numar articole in newsletter</h3>
+				<div class="slider" min="3" max="6" name="nrart" val="<?php echo $page['settings']['N_ARTICLE_COUNT']?>"></div><br/>
+				<h3> Numarul de sugestii pe newsletter</h3>
+				<div class="slider" min="3" max="6" name="nrsg" val="<?php echo $page['settings']['N_SUGGESTION_COUNT']?>"></div><br/>
+				<!--<h3> Numarul de rezultate pe pagina</h3>
+				<div class="slider" max="50" min="10" step="10" name="nrrez" val="<?php echo $page['settings']['N_ARTICLE_PAGE']?>"></div><br/>
+				-->
+				<?php if($page['modif']): ?>
+					<span class="modif">S-au salvat modificarile.</span>
+				<?php endif; ?>
+				<input type="submit" name="sett" value="Salveaza"><br/>
+			</div>
+		</form>		
+		<br/><br/>
+		
+		
+		<table class="zebra">
+		<thead>
+			<tr>
+				<th style="width:150px">Nume site</th>
+				<th style="text-align:left">URL</th>
+				<th style="width: 110px">Rating</th>
+				<th style="width:100px">Renunta</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+		<?php if(count($page['sites']) > 0): ?>
+			<?php $i = 0; foreach($page['sites'] as $p): ?>
+				<tr <?php if ($i++%2) echo 'class="odd"'; ?> >
+					<td <?php if($p['F_ACTIVE'] == 'N') echo 'style="background-color: #F9966B; text-align: center"'?> style="text-align:center" ><?php if($p['F_ACTIVE'] == 'N') echo ' <b>- INACTIV -</b> '; else echo $p['SITE_NAME']; ?></td>
+					<td <?php if($p['F_ACTIVE'] == 'N') echo 'style="background-color: #F9966B;"'?>><a href="<?php echo $p['URL']; ?>"><?php echo $p['URL']; ?></a> </td>
+					<td>
+						<form  method="post">
+							<?php for($i = 1; $i <= 5; $i++):?>
+								<input name="<?php echo $p['ID']; ?>" type="radio" value="<?php echo $i; ?>" class="star" 
+								<?php if(round($page['rate'][$p['ID']]) == $i):?>
+									checked="checked"
+								<?php endif; ?>
+								/>
+							<?php endfor; ?>
+							
+						</form>
+					</td>
+					<td align="right"><button class="reset" onClick="confirmation('<?php echo $p['SITE_NAME']; ?>',<?php echo $p['ID']; ?>)">Dezabonare</button></td>
+				</tr>			
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr>
+				<td colspan="3">
+					Nu sunteti abonat la nici un site.
+				</td>
+			</tr>
+		<?php endif; ?>
+		
+		</tbody>
+		</table>
+
+		<br/>
+		<br/>
+	<?php endif; ?>
+</div>
+<script type="text/javascript">
+$('.star').rating({
+	callback: function(value) {
+		//alert('id '+$(this).attr('name')+ ' rating ' + value);
+		var id = $(this).attr('name');
+		// console.log( id ); 
+		// console.log( value );
+		$.ajax({
+			method: "get", 
+			url: "http://ihaznews.com/user/rate",
+			data: { 'website_id' : id, 'rating' : value }
+		});
+	}
+});
+ </script>

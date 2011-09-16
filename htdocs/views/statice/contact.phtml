@@ -1,0 +1,46 @@
+<div class="leftSide">
+	<h1>Contact</h1>
+	<h2>Când și cum să  ne contactați</h2>
+
+	<form action="statice/contact" method="post">		
+		<fieldset style="width: 360px">
+		E-mail: <br/><input type="text" name="mail" value=""><br/>	
+		Titlu mesaj: <br/><input type="text" name="titlu" value=""><br/>		
+		Mesaj:<br/> 
+		<textarea name="mesaj" rows="6" cols="41"></textarea><br/><br/> 
+		<!-- RECAPTCHA -->
+		<div id="recaptcha_widget" style="display: none"> 
+			Cod securitate:<br />
+			<input type="text" class="text-input" name="recaptcha_response_field" id="recaptcha_response_field" autocomplete="off" /> 
+				<a style="margin-left: 20px; line-height: 20px" href="javascript:Recaptcha.reload()">Inteligibil? Click aici!</a> 
+			<div id="recaptcha_image"></div> 
+		</div> 
+		<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script> 
+		<script type="text/javascript"> 
+		$(function() {
+		 Recaptcha.create('6LcTTL0SAAAAAI5FxlaBSnV_-6nnqbzGkTr9_mIu',
+			'recaptcha_widget', { theme: 'custom' }
+		  );
+		});
+		</script> 
+		<!-- /RECAPTCHA -->
+		<input type="submit" value="Trimite"> 
+		</fieldset>
+	</form>
+</div>
+
+<div id="home-sidebar"> 
+	<div class="home-sidebar-section"> 
+		<h2>Program iHazNews</h2> 
+		<p>Marți-Vineri: Închis<br />
+		Sâmbătă-Luni: Ne odihnim.</p>
+	</div>
+	
+	<div class="home-sidebar-section"> 
+		<h2>Modalități contact</h2>
+		<p><a title="Nu vă așteptați să și răspundem.." 
+					href="mailto:team@iHazNews.com" class="learn-more">team@iHazNews.com</a>
+			<br />
+		+ modalitatea din stânga</p>
+	</div>
+</div>

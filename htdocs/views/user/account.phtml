@@ -1,0 +1,36 @@
+<div>
+	<h1>Account settings</h1>
+	<h2>Aici puteti schimba informatiile contului</h2>
+	<?php if($page['action']=='succes'): ?>
+	<div align="center">
+	<h3>Modificari inregistrate cu succes! </h3>
+	<?php endif; ?>
+	<form method="post" action="/user/account/">
+	<div align="center">
+	<div class="userContent" align="right">
+		<?php if($page['errors'] && count($page['errors'])): ?>
+		<ul class="errors">
+			<?php foreach( $page['errors'] as $e) : ?>
+			<li> <?php echo $e; ?> </li>
+			<?php endforeach; ?>
+		</ul>
+		<?php endif; ?>
+		<label>Name:
+		<input type="text" name="nume" value="<?php echo $_POST['nume']?>" /></label>
+		<label>E-Mail:
+		<input type="text" name="email" value="<?php echo $_POST['email']?>" /></label>
+		<label>Parola Veche:
+		<input type="password" name="oldPass" /></label>
+		<label>Parola Noua:
+		<input type="password" name="newPass1" /></label>
+		<label>Verificare Parola:
+		<input type="password" name="newPass2" /></label>
+		<input type="submit" style="border-top:3px solid #dedede; " value="Trimite modificari" />
+		<br style="clear: both"/>
+	</div><br/>
+	</form>
+	
+	
+	
+	</div>
+</div>

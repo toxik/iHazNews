@@ -1,0 +1,18 @@
+<h1>Parola uitata</h1>
+<h2>Va puteti recupera accesul la contul dvs. urmand pasii de mai jos</h2> 
+<?php if($page['action'] == 'noAction' || $page['action'] == 'tokenSendingFail'):  ?>
+	<?php if($page['action'] == 'tokenSendingFail'): ?>
+		<h3 style="color: red">Username invalid sau exista deja un email de resetare trimis.<br />
+		Acesta va expira in urmatoarea jumatate de ora. Pana atunci nu puteti cere alta parola.</h3>
+	<?php endif; ?>
+		<form method="post" action="/auth/requestNewPass/">
+		<table cellspacing="0">
+			<tr><td><input type="text" name="username" placeholder="username"></td>
+				<td><input type="submit" value="Recuperare" class="submit" /></td>
+			</tr>
+			<tr class="small"><td colspan="2"><a href="/auth/register">Want an account? Register!</a></td></tr>
+		</table>
+	</form>
+<?php else: ?>
+<p>Urmatorul pas este sa verificati adresa de email <?php echo $page['email']; ?> si sa accesati linkul de acolo. Nu uitati sa verificati si folderul de spam</p>
+<?php endif; ?>

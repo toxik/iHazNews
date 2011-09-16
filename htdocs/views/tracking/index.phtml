@@ -1,0 +1,24 @@
+<?php 
+	header('Content-Type: application/javascript'); 
+	header('Access-Control-Allow-Credentials: true'); 
+	if (!$_SERVER['HTTP_REFERER'] || !$page['ts']) exit;
+?>
+(function(){
+    function createCORSRequest(method, url, async){
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr){
+            xhr.open(method, url, async);
+        } else if (typeof XDomainRequest != "undefined"){
+            xhr = new XDomainRequest();
+            xhr.open(method, url, async);
+        } else {
+            xhr = null;
+        }
+        return xhr;
+    }
+    window.onbeforeunload = function(){
+        var request = createCORSRequest('get', 'http://ihaznews.com/tracking/end_tracking/ts/<?php echo rawurlencode($page['ts']);?>/sid/<?php echo session_id(); ?>', false);
+        if (request)
+            request.send();
+    }
+})();

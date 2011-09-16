@@ -1,0 +1,39 @@
+<div style="width: 655px; float: left">
+	<!--
+	<h1 style="color:#E8843A;margin-left:7px;padding-bottom:7px;margin-top:-20px;margin-bottom:20px;font-weight:bold;font-style:italic">Home</h1>
+	<h2 style="color:#3FAFEF">Latest news</h2>
+	-->
+	<h1>Site management</h1>
+	<h2>Editare site</h2>
+	<div class="contentNews1">
+	 <div align="left">
+		<form method="post">
+			<label>URL:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" name="urlName" value="<?php echo isset($_POST['urlName']) ? $_POST['urlName'] : $page['url'] ?>" />
+			<?php 
+			
+			if(isset($_POST['urlName'])){
+			if($_POST['urlName'] == "" || trim($_POST['urlName'])== "")
+			{echo '<label style="color:red">Camp incomplet!</label>';}  
+			$reg = $page['reg'];
+			if(!preg_match("/^$reg$/", $_POST['urlName'])){
+			 echo '<label style="color:red">*Date invalide!</label>' ;
+			}
+			}
+			?>
+			<br />
+			<br />
+			<br />
+			<label>Stare:</label>
+			<select name="activare" >
+			 <option value="Y" <?php echo ($page['on'] == 'Y')? 'selected="selected"' : '' ?> >Activ</option> 
+			 <option value="N" <?php echo ($page['on'] == 'N')? 'selected="selected"' : '' ?> >Inactiv</option>
+			</select>
+			<br/><br/>
+			<input class="confirm" type="submit" value="Modifica" />
+			<br style="clear: both" /><br />
+		</form>
+		</div>
+	</div>
+
+</div> 

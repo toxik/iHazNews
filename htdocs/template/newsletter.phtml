@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Newsletter iHazNews</title>
+		<style>
+			html{ background: #1a1a1a repeat-x scroll; color: lightgray }
+			.rec { display: block; width: 31%; height: 240px; border: 1px solid #333; padding: 5px; overflow-y: hidden;
+				float: left; margin: 0 2px 2px 0; border-right: 1px solid #222; border-bottom: 1px solid #222; position: relative }
+			a, a:visited  { color: #75b2de; }
+			.rec a { font-size: 1.2em; font-weight: bold }
+			.rec a.title { font-size: 1.1em }
+			.rec p { color: #bada55; font-size: 11px; font-weight: normal; margin:2px; color: #fdfdcb }
+			.rec .via { position: absolute; left: 2px; bottom: 0; height: 30px; font-size: 11px!important ;
+				border: 1px solid #333; border-right: 1px solid #222; border-bottom: 1px solid #222;
+				padding: 0px 10px; line-height: 30px; margin-bottom: 2px; background: #1a1a1a;
+				overflow-y: hidden; overflow-x: hidden; width: 170px; text-align: center
+				}
+			.rec .via a { font-size: 11px!important }
+		</style>
+	</head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust:none; margin:0; padding:0; width:100% !important;background: transparent url('http://ihaznews.com/images/body_bg.jpg') no-repeat center top">
+		<center>
+		<table width="600" align="center" cellspacing="0" cellpadding="0" style="font-family: VollkornRegular, 'Trebuchet MS', Verdana, sans-serif; color: lightgrey">
+			<!-- HEADER -->
+			<tr><td>
+					<br />
+					<img src="http://ihaznews.com/images/logo.png" />
+				</td></tr>
+			<tr><td>
+					<font size="4">Acesta este newsletter-ul periodic de la iHazNews pentru <?php echo $user['e']; ?></font>
+					<br /><br />
+				</td></tr>
+			<?php if(!$p['suggestions']): ?>
+			<tr><td><font size="3" color="#bada55">Ne pare rau, insa nu am gasit recomandari pentru dumneavoastra. <br />
+				Avem, in schimb, sugestiile de mai jos:</font></td></tr>
+			<?php else: ?>
+			<tr><td>
+				<font size="3" color="#bada55">Recomandari:</font><br />
+				<?php 
+				$i = 0;
+				if ($p['suggestions'])
+				foreach($p['suggestions'] as $r): ?>
+					<?php //Zend_Debug::dump($r); ?>
+					<div class="rec">
+						<a href="<?php echo $r->url_articol; ?>" class="title"><?php echo $r->titlu_articol;?></a>
+						<p>
+							<?php echo $r->descriere_articol; ?>
+						</p>
+						<div class="via"><center>via <a href="<?php echo $r->url_articol; ?>"><?php 
+							echo $r->titlu_blog; ?></a></center></div>
+					</div>
+					<?php if(!(++$i % 3)) echo '<br clear="both" style="clear:both" />'; ?>
+				<?php endforeach; ?>
+			</td></tr>
+			<?php endif; ?>
+			<?php if(!$p['recommendations']): ?>
+			<tr><td><font size="3" color="#bada55">Ne pare rau, insa nu am gasit sugestii pentru dumneavoastra. <br />
+				Avem, in schimb, recomandarile de mai sus!</font></td></tr>
+			<?php else: ?>
+			<tr><td>
+				<font size="3" color="#bada55">Sugestii:</font><br />
+				<?php 
+				$i = 0;
+				if ($p['recommendations'])
+				foreach($p['recommendations'] as $r): ?>
+					<?php //Zend_Debug::dump($r); ?>
+					<div class="rec">
+						<a href="<?php echo $r->url_articol; ?>" class="title"><?php echo $r->titlu_articol;?></a>
+						<p>
+							<?php echo $r->descriere_articol; ?>
+						</p>
+						<div class="via"><center>via <a href="<?php echo $r->url_articol; ?>"><?php 
+							echo $r->titlu_blog; ?></a></center></div>
+					</div>
+					<?php if(!(++$i % 3)) echo '<br clear="both" style="clear:both" />'; ?>
+				<?php endforeach; ?>
+			</td></tr>
+			<?php endif; ?>
+			<tr><td align="center"><font size="2"><br /><br />
+				&copy; <?php echo '2010 - ' . date('Y'); ?> All rights reserved <a href="http://ihaznews.com/">iHazNews</a>
+				</font>
+				<br /><br />
+			</td>
+			</tr>
+		</table>
+		</center>
+	</body>
+</html>

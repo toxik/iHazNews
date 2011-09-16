@@ -1,0 +1,28 @@
+
+.slider{
+width:200px;
+}
+.contentNews1{
+width:95%;
+margin:10px 0;
+border-style:solid;
+border-width:2px;
+border-color:#dedede;
+padding:5px 5px 5px 5px;
+background: transparent url(/images/bg-home-right.gif) no-repeat -500px -144px;
+}
+
+.contentNews2{
+width:95%;
+margin:10px 0;
+border-style:solid;
+border-width:2px;
+border-color:white;
+padding:5px 5px 5px 5px;
+}
+
+.time{
+font-size: 1.1em;
+font-style:italic;
+float:right;
+}

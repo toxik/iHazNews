@@ -1,0 +1,32 @@
+<h1>Admin Newsgroup</h1>
+<h2>Modificare date grup</h2>
+<?php if($page['admin']): ?>
+	Pentru a modifica detaliile personale, folsiti <a href="http://ihaznews.com/user/account">Optiuni</a> .
+<?php else: ?>
+	<?php if($page['errors'] && count($page['errors'])): ?>
+		<ul class="errors">
+			<?php foreach( $page['errors'] as $e) : ?>
+			<li> <?php echo $e; ?> </li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+<form method="post">
+	<fieldset style="width: 300px;">
+		<table style="width: 250px">
+			<tbody>
+				<tr>
+					<td class="mod_user_stg"><label for="nume">Nume grup: </label></td>
+					<td class="mod_user_dr"><input type="text" id="nume" name="nume" maxlength="45" value="<?php echo $page['nume']; ?>" /></td>
+				</tr>								
+			</tbody>
+		</table>
+		<br/>
+		<input type="submit" name="modif" value="Modifica">
+		<br/>
+	</fieldset></br>
+	<div class="modif"><?php if($page['modif']): ?>
+		Datele s-au modificat cu succes.<br/>
+		<?php endif; ?>		
+	</div>
+</form>
+<?php endif; ?>

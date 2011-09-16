@@ -1,0 +1,114 @@
+	<!--
+	<h1 style="color:#E8843A;margin-left:7px;padding-bottom:7px;margin-top:-20px;margin-bottom:20px;font-weight:bold;font-style:italic">Site Management</h1>
+	-->
+	<h1>Site management</h1>
+	<h2>Aici puteti administra site-urile dvs. - adaugare, modificare si dezactivare</h2>
+	
+<div class="formContent" style="width:190px;/* height:220px*/padding:10px">
+	<table CELLPADDING=10>
+	  <tr>
+		<td align="center">
+		
+		<form  method ="post" >
+		
+			<label>Site name:</label><br/> 
+			<input type="text" name="siteName" value="<?php echo isset($_POST['siteName'])? $_POST['siteName'] : "" ?>" maxlength="255"/>
+			
+			<br/>
+			<label>URL:</label><br/>
+			<input type="text" name="urlName"  value="<?php echo isset($_POST['urlName'])? $_POST['urlName'] : "" ?>" maxlength="100"/>
+			<?php 	
+              
+						if(isset($_POST['siteName'])&&(trim($_POST['siteName']) == "")&&(isset($_POST['urlName'])&&trim($_POST['urlName']) != ""))
+						{
+											    
+			       		echo '<br/><label style="color:red">Camp incomplet!</label>';
+						}  
+                        
+						elseif(isset($_POST['siteName'])&&(trim($_POST['siteName']) != "")&&isset($_POST['urlName'])&&(trim($_POST['urlName']) == "")){	   
+						
+							echo '<br/><label style="color:red">Adresa URL invalida!</label>' ;
+	   
+							}
+						else
+						{
+						if(isset($page['valid'])&&$page['valid'] == 0){ echo '<br/><label style="color:red">Adresa URL invalida!</label>' ;	}
+						}  
+						
+                        
+						if(isset($_POST['siteName'])&&(trim($_POST['siteName']) == "")&&isset($_POST['urlName'])&&(trim($_POST['urlName']) == "")){						    
+			       		echo '<br/><label style="color:red">Campuri incomplete!</label>';
+						}	
+                        					
+						if(isset($page['valid'])&&$page['valid'] == 1&&count($page['siteOn']) == 0){echo '<tr><td><br /><label style="color:blue">Site adaugat cu succes!</label></td></tr>';}
+						
+				
+		  
+			?>
+		</td>
+		
+	  </tr>
+	  <tr>
+		<td colspan=2 align="center" style="border-top:3px solid #dedede; ">
+		<input type="submit" value="Add" /></td>		
+		</form>
+		
+	  </tr>
+	 
+	
+	</table>	
+	
+</div>
+<br/>
+<div class="formContent" style="width:800px">
+	<table CELLPADDING=10 cellspacing="0" >
+	  <tr >
+		<td class="tdStyle">
+			<h3>Site Name</h3>
+		</td>
+		<td width="500px" class="tdStyle">
+			<h3>URL</h3>
+		</td>
+		<!--
+		<td class="tdStyle">
+			<h3>Widget</h3>
+		</td>
+		-->
+		<td class="tdStyle">
+			<h3>Edit NewsGroups</h3>
+		</td>
+		<td class="tdStyle">
+			<h3>Edit</h3>
+		</td>
+		<td class="tdStyle">
+			<h3>Deactivate</h3>
+		</td>
+	  </tr>
+	 
+		
+		<?php 
+		
+		foreach($page['rez'] as $i => $val){
+	
+		echo '<tr>';
+		echo '<td>'.$val['SITE_NAME'].'<input type="hidden" value='.$val['WEBSITE_ID'].' />'.'</td>';
+		echo '<td><a href ="'.$val['URL'].'">'.$val['URL'].'</a></td>';
+        //echo '<td><button class="script">Widget</button></td>';
+		//echo '<td><button class="stats">Statistici</button></td>';
+		echo '<td><button class="link edit" href="/furnizor/manageNewsgroups/wid/'.$val['WEBSITE_ID'].'">Manage Newsgroups</button></td>';
+		echo '<td><button class="link edit" href="/furnizor/modificare/pageNo/1/userid/'.$page['USER_ID'].'/wid/'.$val['WEBSITE_ID'].'" > Modificare</button></td>';
+		if($val['F_ACTIVE'] == 'Y'){
+		echo '<td><button class="link reset" href="/furnizor/modificaStatus/wid/'.$val['WEBSITE_ID'].'">Dezactivare</button></td>';
+		}
+		else
+		{
+		 echo '<td><button class="link confirm" href="/furnizor/modificaStatus/wid/'.$val['WEBSITE_ID'].'">Activare</button></td>';
+		}
+		echo '</tr>';
+		
+		}
+		
+		?>
+		
+	</table>	
+</div>

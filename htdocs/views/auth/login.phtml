@@ -1,0 +1,19 @@
+<h1>Autentificare</h1>
+<?php if($page['action'] == 'noAction' || $page['action'] == 'logUnsuccessful'):  ?>
+<h2>Completati campurile de mai jos pentru a va autentifica pe site</h2>
+	<?php if($page['action'] == 'logUnsuccessful'): ?>
+		<h3 style="color: red">Datele sunt invalide!</h3>
+	<?php endif; ?>
+		<form method="post" action="/auth/login/">
+		<table cellspacing="0">
+			<tr><td><input type="text" name="user" placeholder="username"></td>
+				<td><input type="password" name="pass" placeholder="password"></td>
+				<td><input type="submit" value="Login" class="submit" />
+			</tr>
+			<tr class="small"><td><a href="/auth/requestNewPass">Lost password?</a></td><td colspan="2"><a href="/auth/register">Want an account? Register!</a></td></tr>
+		</table>
+	</form>
+<?php else: ?>
+<h2>Autentificare cu succes! Bine ati venit!</h2>
+<p>Puteti folosi toate resursele alocatele tipului dvs. de cont</p>
+<?php endif; ?>

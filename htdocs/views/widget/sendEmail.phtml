@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:og="http://ogp.me/ns#"
+	xmlns:fb="http://www.facebook.com/2008/fbml"> 
+<head>
+	<meta charset="utf-8"/> 
+	<meta property="fb:app_id" content="112565792163579" /> 
+	<meta property="og:type" content="story"/>
+	<meta property="og:url" content="<?php echo $page['site']; ?>"/> 
+	<link href="/template/css/jquery.rating.css?v=1303564344" type="text/css" rel="stylesheet" /> 
+	<title>iHN Widget - Recommend page</title>
+	<style>
+		* { font-size: 1em; font-family: VollkornRegular, 'Trebuchet MS', Verdana, sans-serif; }
+		h1 { font-size: 12px }
+		html, body { font-size:12px; text-align: justify;
+			overflow-x: hidden; overflow-y: hidden; margin:0; padding:0 }
+		body { padding: 5px }
+		label { margin: 10px 0px; display: block; }
+		button, input, textarea { float: right; color: #555;
+				text-shadow: 0 1px 0 white;
+				border: 1px solid #626262;
+				background: #DDD; -moz-box-shadow: inset 2px 2px 1px #CDCDCD;
+				-webkit-box-shadow: inset 2px 2px 1px #CDCDCD; box-shadow: inset 2px 2px 1px #CDCDCD;
+				-webkit-border-radius: 0; -khtml-border-radius: 0;-moz-border-radius: 0;
+				border-radius: 0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;
+				-ms-box-sizing: border-box; box-sizing: border-box; outline: none;
+				}
+		input[type=submit], button { padding: 4px 4px; float: none; /*border: 1px solid #ccc*/ }
+		input[type=submit]:hover, button:hover { color: black; cursor: pointer; }
+		input { width: 100% }
+		input.submit { width: auto }
+		
+		button.ihn { padding: 3px 16px; margin-top: 10px; letter-spacing: 1px; font-weight: bold }
+		a, a:visited, a:hover { color: #19196A; }
+		label a { line-height: 24px }
+		.error { font-weight: bold; color: red }
+		h1 { font-size: 1.24em }
+	</style>
+</head>
+<body>
+	<?php if ($page['errors'] && $_POST || !$_POST): ?>
+	<h1>Recomandare pagina pe email via iHN</h1>
+	<form method="post">
+		<fieldset>
+			<legend>Link transmis</legend>
+			<input id="link" readonly name="link" value="<?php echo rawurldecode(urldecode($_GET['site'])); ?>" />
+		</fieldset>
+		
+		<fieldset>
+			<legend>Destinatar *</legend>
+			<input name="for" value="<?=$_POST['for']?>" />
+		</fieldset>
+		
+		<fieldset>
+			<legend>Detalii personale</legend>
+			<label>
+				Numele tau sau proecla (optional)<br />
+				<input name="nume_porecla" value="<?=$_POST['nume_porecla']?>" />
+			</label>
+			
+			<label>
+				Mesajul tau (optional)<br />
+				<textarea name="mesaj" style="width:100%" cols="40" rows="5"><?=$_POST['mesaj']?></textarea>
+			</label>
+		</fieldset>
+		<center>
+			<input type="submit" value="Trimite email!" class="submit" style="margin-top: 10px" />
+		</center>
+	</form>
+	
+	<?php else: ?>
+	<h1>&nbsp;</h1>
+	<center>
+	<h1>Mesajul dvs. a fost trimis cu succes!</h1>
+	
+	<h1>Fereastra se va auto-inchide in <span id="timer">10 secunde</span>.</h1>
+	</center>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script>
+		$(function() {
+			var seconds = 10, height = 410, t = null, update = document.getElementById('timer');
+			//setTimeout("self.close();",10*1e3);
+			t = setInterval(function() {
+				window.resizeTo( 360, height-=10 );
+				if ( height <= 210 )
+					clearInterval(t);
+			}, 33)
+			setInterval(function() {
+				update.innerHTML =  --seconds != 1 ? seconds + ' secunde' : '1 secunda';
+				if (seconds == 0)
+					self.close();
+			}, 1e3)
+		});
+	</script>
+	<?php endif; ?>
+		<?php if(is_array($page['errors'])): ?>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script>
+		$(function() {
+			<?php foreach($page['errors'] as $err): ?>
+			$('input[name=<?php echo $err; ?>]').css({'borderColor': 'red'});
+			<?php endforeach; ?>
+		});
+		</script>
+		<?php endif; ?>
+</body>
+</html>

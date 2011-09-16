@@ -1,0 +1,54 @@
+<div class="leftSide">
+	<h1>Admin Users</h1>
+	<h2>Lista tuturor utilizatorilor</h2>
+
+	<table class="zebra" id="filtrabil">
+		<thead>
+			<tr>
+				<th style="text-align:left">Username</th>
+				<th style="text-align:left">Tip user</th>
+				<th style="text-align:left">Email user</th>
+				<th>Actiuni</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($page['users'] as $e): ?>
+			<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+				<td><?php echo $e['USERNAME']; ?></td>
+				<td><?php $usertypes = array('A' => 'Admin', 'U' => 'User', 'P' => 'Furnizor'); echo $usertypes[$e['USER_TYPE']]; ?></td>
+				<td><?php echo $e['E-MAIL']; ?></td>
+				<td style="width:181px">
+				<?php if($page['ownid'] != $e['USER_ID']):?>
+					<?php if ($e['F_ACTIVE'] == 'Y'): ?>
+						<button class="link reset" href="/administrator/users/pageNo/<?php echo $page['pageNo']; ?>/userid/<?php echo $e['USER_ID']; ?>/activated/false">Dezactivare</button>
+					<?php else: ?>
+						<button class="link confirm" href="/administrator/users/pageNo/<?php echo $page['pageNo']; ?>/userid/<?php echo $e['USER_ID']; ?>/activated/true">&nbsp;&nbsp;&nbsp;Activare&nbsp;&nbsp;</button>
+					<?php endif; ?>
+					<!----
+					<?php if ($e['USER_TYPE'] == 'U'): ?>
+						<button class="link confirm" href="/administrator/users/pageNo/<?php echo $page['pageNo']; ?>/userid/<?php echo $e['USER_ID']; ?>/promoted/true">Promovare</button>
+					<?php elseif ($e['USER_TYPE'] == 'A'): ?>
+						<button class="link reset" href="/administrator/users/pageNo/<?php echo $page['pageNo']; ?>/userid/<?php echo $e['USER_ID']; ?>/promoted/false">Demitere</button>
+					<?php endif; ?>
+					--->
+					<button class="link edit" href="administrator/modifica_user/user_id/<?php echo $e['USER_ID']; ?>">Modificare</button>
+				<?php endif; ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
+
+<div id="home-sidebar"> 
+	<div class="home-sidebar-section"> 
+		<h2>Filtrare utilizatori</h2> 
+		<form >
+			<fieldset>
+				<form id="filter-form"><label for="filter"Username / E-mail / Tip</label> <br/> <input name="filter" id="filter" value="" maxlength="100" size="20" type="text"></form>
+				<br />					
+			</fieldset>
+		</form>
+	</div> 
+
+</div>

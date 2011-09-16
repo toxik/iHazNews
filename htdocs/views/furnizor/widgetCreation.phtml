@@ -1,0 +1,51 @@
+<div class="leftSide" style="width: 400px">
+	<h1>Generare widget</h1>
+	<h2>Aici puteti sa creati propriile widget-uri</h2>
+	
+	<h3 style="padding:5px;">Latime</h3>
+	<div class="slider" min="190" max="350" name="width" val="190" id="width"></div>
+	<br style="clear: both" />
+	<h3 style="padding:5px;">Inaltime</h3>
+	<div class="slider" min="250" max="400" name="height" val="250" id="height"></div>
+	<br style="clear: both" />
+		<br/>
+	
+	<textarea rows="9" cols="35" placeholder="Your code will appear here.." id="code" style="width: 100%"></textarea>
+</div>
+<div id="home-sidebar" style="width: 360px"> 
+	<h1>Widget preview</h1>
+	<h2>previzualizati widget-ul dumneavoastra</h2>
+	
+	<iframe id="preview" src="http://ihaznews.com/widget/preview" style="width: 190px; height: 250px;" FRAMEBORDER="1" SCROLLING="0"></iframe>
+	
+	<script>
+		$(function(){
+			var $preview = $('#preview'), width = 190, height = 250, $code = $('#code');
+			$( '#width' ).bind( 'slide', function(event, ui) {
+				width = ui.value;
+				$preview.css({'width': width + 'px'});
+				refreshCode();
+			});
+			$( '#height' ).bind( 'slide', function(event, ui) {
+				height = ui.value;
+				$preview.css({'height': height + 'px'});
+				refreshCode();
+			});
+			
+			function refreshCode() {
+				$code.val(
+					'<!-- START iHazNews WIDGET and TRACKING CODE -->' + "\r\n" 
+					+ '<iframe id="preview" src="http://ihaznews.com/widget" style="width: '
+					+ width +'px; height: '+ height +'px;" FRAMEBORDER="0" SCROLLING="0"></iframe>'
+					+ '<scr' + 'ipt src="http://ihaznews.com/tracking">' + '</sc' + 'ript>'
+					+ "\r\n" + '<!-- END iHazNews WIDGET and TRACKING CODE -->' 
+				);
+			};
+			
+			$code.click( function() {
+				this.select();
+			});
+			
+			refreshCode();
+		});	</script>
+</div>

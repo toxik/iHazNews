@@ -1,0 +1,112 @@
+
+<div class="leftSide">
+	
+	<?php if(isset($page['error'])):?>
+				Trebuie sa fii autentificat ca utilizator pentru a avea acces la aceasta pagina.<br/>
+		       <a href="/auth/login">Login</a>
+	<?php else:?>	
+         <h1>Browse Sites</h1>
+		 <h2>Lista siteuri partenere</h2>
+	     <table class="zebra" id="filtrabil" style="width:650px">
+		  <thead>		
+		   <tr>
+				<th style="width:150px">Nume site</th>
+				<th style="text-align:left;width: 150px;">URL</th>
+				<th style="width:100px">Aboneaza</th>
+				<th style="width:100px">Newsgroup</th>
+				<th style="width:170px">Rating</th>
+			</tr>
+		  </thead>
+		 <tbody>
+	 <?php endif ?>
+	 
+		<?php if(!isset($page['error'])) : ?>			
+		<?php $i = 0;  $c = 0; $rt=1;   $r = 0; ?>
+		
+		<?php foreach($page['sites'] as $elem => $val):?>	 
+			<?php	if ($i%2):?>
+			
+			   <tr class="odd" >
+			
+			<?php  else: ?>
+           			   <tr>
+           <?php endif; ?>			   
+		
+		<td style="text-align:center; "><?php echo $val['SITE_NAME'];?></td>
+
+   		    <td><a href="<?php echo $val['URL']?>"><?php echo $val['URL']?></a></td>
+
+		    <?php if($page['isOn'][$c]['WEBSITE_ID'] == $val['WEBSITE_ID']): ?>
+
+       		   <td align="right"><button class="link reset" href="/user/release/wid/<?php echo $val['WEBSITE_ID'];?>" >Dezaboneaza</button></td>
+			
+			<?php  $c++; ?>
+			<?php else: ?> 
+			
+			<td align="right"><button class="link confirm" href="/user/add/wid/<?php echo $val['WEBSITE_ID'];?>" >Aboneaza</button></td>
+		
+       		<? endif; ?>
+		
+    		<td><button class="togg showForm" id="<?php echo $val['WEBSITE_ID']; ?>" >Vizualizare Newsgroup</button>
+			<br/>
+			<div id="n<?php echo $val['WEBSITE_ID']; ?>" style="display: none;">
+				<?php if(empty($page['ngr'][$val['WEBSITE_ID']])): ?>
+					Nu are newsgroup-uri asociate.
+				<?php else: ?>
+					
+					<?php foreach($page['ngr'][$val['WEBSITE_ID']] as $n): ?>
+						<a href="user/newsgroup_info/newsgroup_id/<?php echo $n['id']; ?>"><?php echo $n['nume']; ?></a><br/>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</div>
+			</td>
+		
+        	<td>
+		    <form  method="get">
+			<!--<input type="hidden" name="website_id" value="<?php// echo $val['WEBSITE_ID']; ?>" />-->
+      		<?php for($ii = 1; $ii <= 5; $ii++):?>
+				<input name="<?php echo $val['WEBSITE_ID']; ?>" type="radio" value="<?php echo $ii; ?>" class="star" 
+			<?php if(round($page['rate'][$val['WEBSITE_ID']]['Medie']) == $ii&&$page['rate'][$val['WEBSITE_ID']]['WEBSITE_ID'] == $val['WEBSITE_ID']): ?> checked = "checked" <?php   endif; ?>	 />
+			
+			<?php endfor; ?>
+		
+			</form>
+     			
+			</td>
+			 </tr>
+             
+				<?php $i++; ?>
+					
+			    <?php endforeach; ?>
+ 			
+				<?php endif; ?>
+				
+		
+		</tbody>		
+	</table>
+</div>
+<?php if(!isset($page['error'])):?>
+<div id="home-sidebar"> 
+		<div class="home-sidebar-section"> 
+			<h2>Cauta site</h2> 
+			<form id="filter-form">
+			<fieldset>
+				<label>Nume site</label> 
+				<input name="filter" id="filter" value="" maxlength="255" size="20" type="text">
+				</fieldset>
+			</form>
+		</div> 
+</div>
+<?php endif ?>
+<script type="text/javascript">
+$('.star').rating({
+	callback: function(value) {
+		//alert('id '+$(this).attr('name')+ ' rating ' + value);
+		var id = $(this).attr('name');
+		// console.log( id ); 
+		// console.log( value );
+		$.get('http://ihaznews.com/user/rate/', { 'website_id' : id, 'rating' : value } );
+	}
+});
+ </script>
+ 

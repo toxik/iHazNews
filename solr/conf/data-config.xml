@@ -1,0 +1,28 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost/party" 
+              user="party" 
+              password="party0101"/>
+  <document>
+    <entity name="product" 
+            query="
+			SELECT
+				manuf.manufacturers_name AS manufacturer,
+				prd.products_id AS id,
+				prdsc.products_name AS name,
+				prdsc.products_description AS description,
+				prdtocat.categories_id
+				FROM (products prd,
+				products_description AS prdsc,
+				products_to_categories AS prdtocat)
+				LEFT JOIN manufacturers AS manuf ON ( manuf.manufacturers_id = prd.manufacturers_id )
+				WHERE 
+				( prd.products_id = prdsc.products_id AND prdsc.language_id = 4 )
+				AND prd.products_id = prdtocat.products_id
+				AND prd.products_status = 1 
+				ORDER BY prdtocat.categories_id DESC
+			">
+    </entity>
+  </document>
+</dataConfig>

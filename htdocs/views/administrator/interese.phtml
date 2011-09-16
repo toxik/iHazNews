@@ -1,0 +1,54 @@
+<div class="leftSide">
+	<h1>Admin Interese</h1>
+	<h2>Lista tuturor domeniilor de interes</h2>
+
+	<table class="zebra" id="filtrabil">
+		<thead>
+			<tr>
+				<th style="text-align:left">Interese</th>
+				<th colspan="2">Actiuni</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($page['interese'] as $i => $e): ?>
+			<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+				<td><?php echo $e['NAME']; ?></td>
+				<td style="width:80px">
+					<button class="reset" onClick="confirmation_int('<?php echo $e['NAME']; ?>',<?php echo $e['ID']; ?>)">Sterge</button>
+				</td>
+				<td style="width:80px">
+					<button class="link edit" href="administrator/modifica_interes/interest_id/<?php echo $e['ID']; ?>">Modificare</button>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
+
+<div id="home-sidebar"> 
+	<div class="home-sidebar-section"> 
+		<h2>Adauga interes</h2> 
+		<form method="post">
+			<fieldset>
+				<label>Nume interes</label>
+				<input type="text" name="interes" maxlength="45" value="<?php echo $_POST['interes']; ?>" maxlength="45" />
+				<br />
+				<div>
+				</div>
+				<br/>
+				<input type="submit" name="modif" value="Adauga">
+			</fieldset>
+		</form>
+	</div> 
+
+	<div class="home-sidebar-section"> 
+		<h2>Filtrare interese</h2> 
+		<form >
+			<fieldset>
+				<form id="filter-form"><label for="filter">Interes</label> <br/> <input name="filter" id="filter" value="" maxlength="45" size="20" type="text"></form>
+				<br />					
+			</fieldset>
+		</form>
+	</div> 
+	
+</div>

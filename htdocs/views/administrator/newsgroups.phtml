@@ -1,0 +1,70 @@
+<div class="leftSide">
+	<h1>Admin Newsgroups</h1>
+	<h2>Lista tuturor newsgroups-urilor</h2>
+
+	<table class="zebra" id="filtrabil">
+		<thead>
+			<tr>
+				<th style="text-align:left">Nume newsgroup</th>
+				<th colspan="2">Actiuni</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($page['newsgroups'] as $i => $e): ?>
+			<tr <?php if ($i++%2) echo 'class="odd"'; ?>>
+				<td><?php echo $e['NAME']; ?></td>
+				<td style="width:80px">
+					<?php if (is_null($e['VALID_TO']) || $e['VALID_TO'] == ''): ?>
+					<button class="link reset" href="/administrator/newsgroups/pageNo/<?php echo $page['pageNo']; ?>/newsgroupid/<?php echo $e['ID']; ?>/activated/false">Dezactivare</button>
+					<?php else: ?>
+					<button class="link confirm" href="/administrator/newsgroups/pageNo/<?php echo $page['pageNo']; ?>/newsgroupid/<?php echo $e['ID']; ?>/activated/true">&nbsp;&nbsp;&nbsp;Activare&nbsp;&nbsp;</button>
+					<?php endif; ?>
+				</td>
+				<td style="width:80px">
+					<button class="link edit" href="/administrator/modifica_newsgroup/newsgroup_id/<?php echo $e['ID']; ?>">Modificare</button>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
+
+<div id="home-sidebar"> 
+	<div class="home-sidebar-section"> 
+		<h2>Adaugare newsgroup</h2> 
+		<form action="administrator/newsgroups" method="get">
+			<fieldset>
+				<label>Nume newsgroup</label>
+				<input type="text" name="newsgroupEdit" value="<?php echo $page['newsgroupEdit']; ?>" maxlength="45" />
+				<input type="hidden" name="newsgroupEditID" value="<?php echo $page['newsgroupEditID']; ?>" />
+				<input type="hidden" name="pageNo" value="<?php echo $page['pageNo']; ?>" />
+				<br />
+				<label>Stare newsgroup</label>
+				<input type="radio" value="1" name="stare" <?php if ($page['newsgroupEditState'] == 'activat') echo 'checked="checked"'; ?> id="stare1" />
+				<input type="radio" value="0" name="stare" <?php if ($page['newsgroupEditState'] == 'dezactivat') echo 'checked="checked"'; ?> id="stare2" />
+				<br />
+				<label for="stare1">Activat</label> <label for="stare2">Dezactivat</label>
+				<br /><br />
+				<?php if($page['newsgroupEditID'] == 0 || $page['newsgroupEditID'] == '0'): ?>
+					<input type="submit" name="createNewsgroup" value="Creare newsgroup" />
+				<?php else: ?>
+					<input type="submit" name="resetNewsgroup" value="Reseteaza campuri" />
+					<input type="submit" name="saveNewsgroup" value="Salvare modificari" />
+				<?php endif; ?>
+				<?php if($page['newsgroupMesaj'] != '') echo "<br />".$page['newsgroupMesaj'].""; ?>
+			</fieldset>
+		</form>
+	</div> 
+
+	<div class="home-sidebar-section"> 
+		<h2>Filtrare newsgroups</h2> 
+		<form >
+			<fieldset>
+				<form id="filter-form"><label for="filter">Nume newsgroup</label> <br/> <input name="filter" id="filter" value="" maxlength="45" size="20" type="text"></form>
+				<br />					
+			</fieldset>
+		</form>
+	</div> 
+	
+</div>
+<br/>

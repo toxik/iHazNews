@@ -1,0 +1,15 @@
+<h1>Admin Interese</h1>
+<h2>Modifica interes</h2> 
+<form method="post">
+	<fieldset class="mod_fieldset">
+		<label>Nume interes</label>
+		<input type="text" name="nume" maxlength="45" value="<?php echo $_POST['nume']; ?>" />
+		<br/><br/>
+		<input type="submit" name="modif" value="Modifica">
+		<br/>
+	</fieldset></br>
+	<div class="modif"><?php if($page['modif']): ?>
+			Numele domeniului de interes s-a modificat cu succes.
+			<?php endif; ?>
+		</div>
+</form>

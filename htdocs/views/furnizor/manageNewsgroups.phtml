@@ -1,0 +1,57 @@
+<div style="width: 655px; float: left">
+	<!--
+	<h1 style="color:#E8843A;margin-left:7px;padding-bottom:7px;margin-top:-20px;margin-bottom:20px;font-weight:bold;font-style:italic">Home</h1>
+	<h2 style="color:#3FAFEF">Latest news</h2>
+	-->
+	<h1>Editare NewsGroups</h1>
+	<br />
+	<h2>Adaugare site in NewsGroup</h2>
+	<div class="contentNews1">
+	 <div align="left">
+		<form method="post">
+		<table>
+		 <tr >
+		<td class="tdStyle">
+			<h3>NewsGroups</h3>
+		</td>
+		<?php 
+         if(isset($_GET['s'])&&$_GET['s'] == 1)
+		 {
+		  echo '<td><h3 style="color:blue">Site adaugat cu succes!</h3></td>';
+		 } 
+		?>
+		</tr>
+		<tr><td> <hr /></td></tr>
+		 <?php 
+		 $k = 0;
+		 $c = 0;
+		  foreach($page['NewsGroups'] as $i => $val)
+		  {
+		    
+		    $r =  $page['test'][$c]['NEWSGROUP_ID'];
+			$c1 = $k+1;
+			
+			if($r == $c1){
+		    echo '<tr><td><input type="checkbox" id="check'.$k.'" name="news'.$k.'" value="'.$val['ID'].'" checked = "checked" />
+		    <label for="check'.$k.'"   >'.$val['NAME'].'</label></td></tr>';$c++;
+		    }
+		   else{
+		   
+		   echo '<tr><td><input type="checkbox" id="check'.$k.'" name="news'.$k.'" value="'.$val['ID'].'"/>
+		   <label for="check'.$k.'" >'.$val['NAME'].'</label></td></tr>';
+		   }
+		   $k++;    
+		   }
+		  
+		 ?><tr><td> <hr /></td><td> <hr /></td> </tr>
+		 <tr>
+		<td> <input type="submit"  value="Adauga site in NewsGroup!" name="add" /></td>
+		 
+		<td> <button class="link edit" href="furnizor/siteMng" >Site Management</button></td>
+		 </tr>
+		 </table>
+		</form>
+		</div>
+	</div>
+
+</div> 

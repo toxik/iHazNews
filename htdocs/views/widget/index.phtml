@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:og="http://ogp.me/ns#"
+	xmlns:fb="http://www.facebook.com/2008/fbml"> 
+<head>
+	<meta charset="utf-8"/> 
+	<meta property="fb:app_id" content="112565792163579" /> 
+	<meta property="og:type" content="story"/>
+	<meta property="og:url" content="<?php echo $page['site']; ?>"/> 
+	<link href="/template/css/jquery.rating.css?v=1303564344" type="text/css" rel="stylesheet" /> 
+	<title>iHN Widget - Recommended page</title>
+	<style>
+		* { margin: 0; padding: 0; border: none; font-size: 1em; 
+			font-family: VollkornRegular, 'Trebuchet MS', Verdana, sans-serif; }
+		h1 { font-size: 12px }
+		body { font-size:12px; padding: 5px; text-align: justify;
+			overflow-x: hidden; overflow-y: hidden;}
+		label { margin: 10px 0px; display: block; }
+		button, input { float: right; color: #555;
+				text-shadow: 0 1px 0 white;
+				border: 1px solid #626262;
+				background: #DDD; -moz-box-shadow: inset 2px 2px 1px #CDCDCD;
+				-webkit-box-shadow: inset 2px 2px 1px #CDCDCD; box-shadow: inset 2px 2px 1px #CDCDCD;
+				-webkit-border-radius: 0; -khtml-border-radius: 0;-moz-border-radius: 0;
+				border-radius: 0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;
+				-ms-box-sizing: border-box; box-sizing: border-box; outline: none;
+				}
+		input[type=submit], button { padding: 4px 4px; float: none; /*border: 1px solid #ccc*/ }
+		input[type=submit]:hover, button:hover { color: black; cursor: pointer; }
+		
+		button.ihn { padding: 3px 16px; margin-top: 10px; letter-spacing: 1px; font-weight: bold }
+		a, a:visited, a:hover { color: #19196A; }
+		label a { line-height: 24px }
+		.error { font-weight: bold; color: red }
+	</style>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/template/js/jquery.rating.js"></script>
+</head>
+<body>
+	<center>
+		<form method="post" action="/widget/toggleSubscription" id="subTggl">
+			<input name="website_id" value="<?php echo $page['website_id']; ?>" type="hidden"  />
+			<input name="subscribe" value="<?php echo ( 1 - (int) $page['abonat'] ); ?>" type="hidden" />
+			<button class="ihn">iWantzNews<?php if ($page['abonat']) echo 'NoMore!'; ?></button> 
+		</form>
+		
+		<br />
+		Rating site:<br />
+		<form action="/user/rate/" style="width:110px; text-align: center;">
+			<center>
+			<?php for($i = 1; $i <= 5; $i++):?>
+				<input name="<?php echo $page['website_id']; ?>" type="radio" 
+					value="<?php echo $i; ?>" class="star" 
+					<?php echo round($page['rating']) == $i ? 'checked="checked"' : '' ?>
+				/>
+			<?php endfor; ?>
+			</center>
+		</form>
+		
+		<br /><br />
+		Retele de socializare si email:<br />
+		<table>
+			<tr>
+				<td width="55" height="67">
+					<fb:like href="<?php echo $page['site']; ?>" layout="box_count" width="10" show_faces="true" font="trebuchet ms"></fb:like>
+				</td>
+				<td width="55" height="67">
+					<a href="http://twitter.com/share" class="twitter-share-button" data-url="<?php echo $page['site']?>" data-count="vertical">Tweet</a>
+				</td>
+				<td width="55" height="67" align="right">
+					<a href="/widget/sendEmail/site/<?php echo  urlencode(rawurlencode($page['site']));
+						?>" id="byEmail"><img src="/images/email_48x48.png" /></a>
+				</td>
+			</tr>
+		</table>
+		
+		<form method="get" action="/widget/logout/site/<?php echo urlencode(rawurlencode($page['site'])); ?>">
+			<input type="submit" value="Delogare" style="margin-top:12px" />
+		</form>
+	</center>
+	
+	<div id="fb-root"></div> 
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	
+	<script>
+		$(function(){
+			$('#subTggl').submit( function(e) {
+				e.preventDefault();
+				var $this = $(this);
+				$.post('/widget/toggleSubscription',  $this.serialize(), function(data) {
+					data = parseInt(data);
+					$this.find('input[name=subscribe]').val( 1 - data );
+					$this.find('button').text( 'iWantzNews' + ( data ? 'NoMore!' : '' ) );
+				});
+			});
+			$('.star').click( function() {
+				var val = $(this).find('a').attr('title');
+				$.get(
+					'/user/rate/website_id/<?=$page['website_id']?>/rating/' + val
+				);
+			});
+		});
+		
+		$('#byEmail').click(function(e){
+			e.preventDefault();
+			popup($(this).attr('href'));
+		});
+		
+		var newwin = null;
+		function popup(url) {
+			var width  = 360, height = 410,
+				left   = (screen.width  - width)/2,
+				top    = (screen.height - height)/2,
+				params = 'width='+width+', height='+height;
+			params += ', top='+top+', left='+left + ', directories=no' +
+					  ', location=no' + ', menubar=no' + ', resizable=no' +
+					  ', scrollbars=no' + ', status=no' + ', toolbar=no';
+			newwin=window.open(url,'fereastraEmail', params);
+			if (window.focus) {newwin.focus()}
+			return false;
+		}
+
+		window.fbAsyncInit = function() { FB.init({appId: '112565792163579', status: true, cookie: true, xfbml: true}); };
+		(function() { var e = document.createElement('script'); e.async = true; e.src = 'http://connect.facebook.net/en_US/all.js'; document.getElementById('fb-root').appendChild(e); }());
+	</script>
+</body>
+</html>
